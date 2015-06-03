@@ -28,8 +28,8 @@ static void display_acceleration(AccelData * data, uint32_t num_samples) {
   local_x_avg /= (int)num_samples;
   local_y_avg /= 25;
   local_z_avg /= 25;
-  // Compute the vector magnitude, subtract 1G for earth's gravity, and possibly a bit more for calibration (40 in my case)
-  int variance = isqrt(local_x_avg*local_x_avg + local_y_avg*local_y_avg + local_z_avg*local_z_avg) - 1000 - 40;
+  // Compute the vector magnitude, subtract 1.04G for earth's gravity, and possibly a bit more for calibration
+  int variance = isqrt(local_x_avg*local_x_avg + local_y_avg*local_y_avg + local_z_avg*local_z_avg) - 1040;
   // Display local average
   static char display_string[85];
   snprintf(display_string, 85, "%d Sample Average:\nX:%d,\nY:%d,\nZ:%d\nVariance From Zero\n%d", (int)num_samples, local_x_avg, local_y_avg, local_z_avg, variance);
