@@ -26,8 +26,8 @@ static void display_acceleration(AccelData * data, uint32_t num_samples) {
     local_z_avg += data[i].z;
   }
   local_x_avg /= (int)num_samples;
-  local_y_avg /= 25;
-  local_z_avg /= 25;
+  local_y_avg /= (int)num_samples;
+  local_z_avg /= (int)num_samples;
   // Compute the vector magnitude, subtract 1.04G for earth's gravity, and possibly a bit more for calibration
   int variance = isqrt(local_x_avg*local_x_avg + local_y_avg*local_y_avg + local_z_avg*local_z_avg) - 1040;
   // Display local average
