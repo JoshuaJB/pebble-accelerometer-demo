@@ -1,0 +1,19 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "jbakita@cs.unc.edu",
+    "longName": "Pebble Accelerometer Demo",
+    "projectType": "native",
+    "resources": {
+        "media": []
+    },
+    "sdkVersion": "3",
+    "shortName": "Pebble Accelerometer Demo",
+    "uuid": "4c4eb8f7-3dc8-4b7f-9b6c-34d1320b605c",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
