@@ -3,18 +3,15 @@
 Window *my_window;
 TextLayer *text_layer;
 
-float xsqrt(const float num) {
-  const unsigned int MAX_STEPS = 40;
-  const float MAX_ERROR = 0.001;
-  
-  float answer = num;
-  float ans_sqr = answer * answer;
-  unsigned int step = 0;
-  while ((ans_sqr - num > MAX_ERROR) && (step++ < MAX_STEPS)) {
-    answer = (answer + (num / answer)) / 2;
-    ans_sqr = answer * answer;
-  }
-  return answer;
+// isqrt_impl and isqrt provided by Siu Ching Pong on stackoverflow
+uint32_t isqrt_impl(uint64_t const n, uint64_t const xk) {
+    uint64_t const xk1 = (xk + n / xk) / 2;
+    return (xk1 >= xk) ? xk : isqrt_impl(n, xk1);
+}
+uint32_t isqrt(uint64_t const n) {
+    if (n == 0) return 0;
+    if (n == 18446744073709551615ULL) return 4294967295U;
+    return isqrt_impl(n, n);
 }
 
 // Called with accelerometer data samples
@@ -31,7 +28,8 @@ static void display_acceleration(AccelData * data, uint32_t num_samples) {
   local_x_avg /= (int)num_samples;
   local_y_avg /= 25;
   local_z_avg /= 25;
-  int variance = xsqrt(local_x_avg*local_x_avg + local_y_avg*local_y_avg + local_z_avg*local_z_avg) - 1000;
+  // Compute the vector magnitude, subtract 1G for earth's gravity, and possibly a bit more for calibration (40 in my case)
+  int variance = isqrt(local_x_avg*local_x_avg + local_y_avg*local_y_avg + local_z_avg*local_z_avg) - 1000 - 40;
   // Display local average
   static char display_string[85];
   snprintf(display_string, 85, "%d Sample Average:\nX:%d,\nY:%d,\nZ:%d\nVariance From Zero\n%d", (int)num_samples, local_x_avg, local_y_avg, local_z_avg, variance);
